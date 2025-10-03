@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'healthtracker.urls'
@@ -130,4 +131,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Add our new application
     'catalog.apps.CatalogConfig', # This object was created for us in /catalog/apps.py
+    'corsheaders',
+    'rest_framework'
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True

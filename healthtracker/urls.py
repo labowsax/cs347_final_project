@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from catalog.views import FoodItemListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('foods/', FoodItemListView.as_view(), name='food-list'),
 ]
 
 # Use include() to add paths from the catalog application
