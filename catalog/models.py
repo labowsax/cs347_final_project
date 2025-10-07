@@ -20,6 +20,7 @@ class Profile(models.Model):
 
 class FoodItem(models.Model):
     foodName = models.CharField(null=False, max_length=127)
+    fdcId = models.PositiveIntegerField(null=True)
     # Nutrients
     fat = models.FloatField(default=0)
     saturatedFat = models.FloatField(default=0)
@@ -46,7 +47,7 @@ class FoodItem(models.Model):
 
 class LogItem(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    date = models.models.DateTimeField(auto_now=False, auto_now_add=False)
+    date = models.DateTimeField(auto_now=False, auto_now_add=False)
     foodItem = models.ForeignKey(FoodItem, on_delete=models.CASCADE)
     # I assume use a float from 0 to 1
     percentConsumed = models.FloatField(default=1)
