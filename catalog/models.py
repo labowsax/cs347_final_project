@@ -53,4 +53,4 @@ class LogItem(models.Model):
     percentConsumed = models.FloatField(default=1)
 
     def __str__(self):
-        return (self.profile + ":" + self.FoodItem + ":" + self.date)
+        return (self.profile.user.username + ":" + self.foodItem.foodName + ":" + self.date.strftime("%B"))
