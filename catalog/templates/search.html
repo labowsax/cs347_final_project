@@ -1,1 +1,20 @@
-<p>Search Page 🕵️</p>
+{% extends "base_generic.html" %}
+{% load static %}
+
+
+{% block content %}
+<div>
+    <div class="input-group mx-auto" style="width: 50vw;">
+        <input id="searchBox" type="text" class="form-control" placeholder="Search here!" aria-label="Search" aria-describedby="submit-search">
+        <div class="input-group-append">
+            <span class="input-group-text" id="submit-search" style="cursor:pointer;">search 🕵️🧐</span>
+        </div>
+    </div>
+</div>
+<div>
+    <ul id="search-list">
+    </ul>
+</div>
+
+<script src="{% static 'searchBuilder.js' %}"></script>
+{% endblock %}
