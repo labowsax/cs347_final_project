@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 
 ENVIRONMENT = os.getenv("DJANGO_ENV", "production")
 
@@ -76,6 +75,8 @@ WSGI_APPLICATION = 'healthtracker.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
+import dj_database_url
 
 if ENVIRONMENT == "production":
     DATABASES = {
