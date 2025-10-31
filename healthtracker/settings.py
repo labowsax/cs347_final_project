@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-yph66fhggbl*!21q*j46+ck-rg4a!ww407uk#14_b)rlf))kg#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENVIRONMENT != "production"
 
-ALLOWED_HOSTS = ['<URL>', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,7 +80,8 @@ import dj_database_url
 
 if ENVIRONMENT == "production":
     DATABASES = {
-        "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
+        "default":
+dj_database_url.config(default=os.getenv("DATABASE_URL"))
     }
 else:
     DATABASES = {
@@ -125,7 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STORAGES = {
