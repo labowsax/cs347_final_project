@@ -2,22 +2,20 @@
 {% load static %}
 
 {% block content %}
-  <div>
-    <div class="input-group mx-auto" style="width: 50vw;">
-      <input id="searchBox" type="text" class="form-control" placeholder="Search here!" aria-label="Search" aria-describedby="submit-search" />
+  <div class="container my-4" style="width: 50vw;">
+    <form method="get" action="{% url 'search' slug='placeholder' %}" id="search-form" class="input-group mx-auto">
+      <input type="text" name="q" class="form-control" placeholder="Search for food..." />
       <div class="input-group-append">
-        <span class="input-group-text" id="submit-search" style="cursor:pointer;">search 🕵️🧐</span>
+        <button class="btn btn-outline-secondary" type="submit" id="submit-search">search 🕵️🧐</button>
       </div>
-    </div>
+    </form>
   </div>
 
-  <div class="list-group" id="search-list"></div>
-  {% for food_item in foods %}
-    <a class="list-group-item list-group-item-action">
-      <h5 class="d-flex w-100 justify-content-between">Brand: {{food_item.brandName}}</h5>
-      <p>Description: {{food_item.description}}</p>
-    </a>
-  {% empty %}
-    <p>Try searching for a food!.</p>
-  {% endfor %}
+  <div class="list-group mt-3" id="search-list">
+    {% for food_item in foods %}
+      <a class="list-group-item list-group-item-action"><h5 class="d-flex w-100 justify-content-between">Item: {{ food_item.foodName }}</h5></a>
+    {% empty %}
+      <p>Try searching for a food!</p>
+    {% endfor %}
+  </div>
 {% endblock %}

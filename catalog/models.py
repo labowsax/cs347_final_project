@@ -19,10 +19,11 @@ class Profile(models.Model):
 
 
 class FoodItem(models.Model):
+    # brandName + ": " + description
     foodName = models.CharField(null=False, max_length=127)
     fdcId = models.PositiveIntegerField(null=True)
-    # Nutrients
-    fat = models.FloatField(default=0)
+    # Nutrients                              nut Id Number#
+    fat = models.FloatField(default=0)  
     saturatedFat = models.FloatField(default=0)
     transFat = models.FloatField(default=0)
     cholesterol = models.FloatField(default=0)
@@ -30,7 +31,7 @@ class FoodItem(models.Model):
     carbohydrates = models.FloatField(default=0)
     fiber = models.FloatField(default=0)
     sugars = models.FloatField(default=0)
-    protein = models.FloatField(default=0)
+    protein = models.FloatField(default=0) # 1003
     calcium = models.FloatField(default=0)
     iron = models.FloatField(default=0)
     potassium = models.FloatField(default=0)

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from .static.foodSearch import get_food_data
-import json
 # Create your views here.
 from .models import Profile, FoodItem, LogItem
+from .forms import FoodSearchForm
 
 
 def index(request):
@@ -29,8 +29,11 @@ def blank_search(request):
     return render(request, 'search.html', context=None)
 
 
-def search(request, slug):
-    """View function for search page of site."""
-    food_data = get_food_data(slug)
-    # Render the HTML template index.html with the data in the context variable
-    return render(request, 'search.html', context=food_data)
+def search(request, slug=None):
+    query = request.GET.get("q") or slug
+    foods = None
+
+    if query:
+        foods = get_food_data(query)
+
+    return render(request, 'search.html', {"foods": foods})
