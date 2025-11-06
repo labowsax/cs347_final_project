@@ -74,9 +74,11 @@
 .thick-line {
   border-top: 4px solid #000;
   margin: 4px 0;
+  opacity: 1;
 }
 
 .thin-line {
   border-top: 1px solid #000;
   margin: 4px 0;
+  opacity: 1;
 }

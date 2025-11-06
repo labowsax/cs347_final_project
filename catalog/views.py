@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .static.foodSearch import get_food_data
+from django.core.paginator import Paginator
+from django.core.cache import cache
 # Create your views here.
 from .models import Profile, FoodItem, LogItem
 from .forms import FoodSearchForm
@@ -23,17 +25,20 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-def blank_search(request):
-    """View function for search page of site."""
-    # Render the HTML template index.html with the data in the context variable
-    return render(request, 'search.html', context=None)
-
-
-def search(request, slug=None):
-    query = request.GET.get("q") or slug
-    foods = None
+def search(request):
+    query = request.GET.get("q")
+    foods = []
 
     if query:
-        foods = get_food_data(query)
+        cache_key = f"food_results_{query.lower()}"
+        foods = cache.get(cache_key)
 
-    return render(request, 'search.html', {"foods": foods})
+        if not foods:
+            foods = get_food_data(query)
+            cache.set(cache_key, foods, timeout=60 * 60)  # Cache for 1 hour
+
+    paginator = Paginator(foods, 6)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'search.html', {"page_obj": page_obj, "query": query})

@@ -38,7 +38,7 @@ def get_food_data(query):
         response.raise_for_status()
         resp = response.json()
         returnedFoods = resp["foods"]
-        listLength = 6
+        maxListLength = 30
         foodList = []
         for i in range(len(returnedFoods)):
             inFoodItem = returnedFoods[i]
@@ -73,8 +73,8 @@ def get_food_data(query):
             )
 
             foodList.append(foodItemInstance)
-            listLength -= 1
-            if (listLength < 1):
+            maxListLength -= 1
+            if (maxListLength < 1):
                 break
         return foodList
     except requests.exceptions.RequestException as e:

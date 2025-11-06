@@ -3,8 +3,8 @@
 
 {% block content %}
   <div class="container my-4" style="width: 50vw;">
-    <form method="get" action="{% url 'search' slug='placeholder' %}" id="search-form" class="input-group mx-auto">
-      <input type="text" name="q" class="form-control" placeholder="Search for food..." />
+    <form method="get" action="{% url 'search' %}" id="search-form" class="input-group mx-auto">
+      <input type="text" name="q" class="form-control" placeholder="Search for food..." value="{{ request.GET.q }}">
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="submit" id="submit-search">search 🕵️🧐</button>
       </div>
@@ -13,11 +13,31 @@
 
   <div class="container mt-3">
     <div class="food-cards-container">
-      {% for food_item in foods %}
+      {% for food_item in page_obj %}
         {% include '_food_card.html' %}
       {% empty %}
         <p>Try searching for a food!</p>
       {% endfor %}
     </div>
   </div>
+
+  {% if page_obj.paginator.num_pages > 1 %}
+  <div class="pagination text-center mt-4">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?q={{ request.GET.q }}&page=1">&laquo; first</a>
+        <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current mx-2">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">next</a>
+        <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+  {% endif %}
 {% endblock %}
