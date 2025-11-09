@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+
+{% block nutrient %}
+<h2>Nutrient Gauges</h2>
+
+<script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+
+{% for name, nutrient in nutrients.items %}
+    <div id="gauge-{{ name }}" style="margin-bottom: 20px;"></div>
+
+    <script>
+        var data = [{
+            type: "indicator",
+            mode: "gauge+number",
+            value: {{ nutrient.value }},
+            title: { text: '{{ name|capfirst }}', font: { size: 24 } },
+            gauge: {
+                axis: { range: [0, {{ nutrient.maxRange }}], tickwidth: 1, tickcolor: "black" },
+                bar: { color: "grey" },
+                bgcolor: "grey",
+                borderwidth: 2,
+                bordercolor: "pink",
+                steps: [
+                    { range: [0, {{ nutrient.minIn }}], color: "white" },
+                    { range: [{{ nutrient.minIn }}, {{ nutrient.maxIn }}], color: "green" },
+                    { range: [{{ nutrient.maxIn }}, {{ nutrient.maxRange }}], color: "red" },
+                ]
+            }
+        }];
+
+        var layout = {
+            width: 155,
+            height: 160,
+            margin: { t: 25, r: 25, l: 25, b: 25 },
+            paper_bgcolor: "white",
+            font: { color: "black", family: "Arial" }
+        };
+
+        Plotly.newPlot('gauge-{{ name }}', data, layout);
+    </script>
+{% endfor %}
+
+{% endblock %}

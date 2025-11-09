@@ -71,7 +71,7 @@ def get_food_data(query):
                 vitaminC=nutrientDict["Vitamin C, total ascorbic acid"],
                 vitaminD=nutrientDict["Vitamin D"],
             )
-
+            # foodItemInstance.save()
             foodList.append(foodItemInstance)
             maxListLength -= 1
             if (maxListLength < 1):

@@ -14,4 +14,7 @@ class LogItemAdmin(admin.ModelAdmin):
     list_display = ('profile', 'date')
 
 
-admin.site.register(Profile)
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('age', 'user',"id")
+
