@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .static.foodSearch import get_food_data
 from .static.nutrient_functions import get_dv_avg, get_log_items
 from django.core.paginator import Paginator
@@ -7,7 +7,8 @@ import json
 from datetime import datetime
 # Create your views here.
 from .models import Profile, FoodItem, LogItem
-from .forms import FoodSearchForm
+from .forms import PercentConsumedForm
+
 
 
 def search(request):
@@ -53,3 +54,15 @@ def edit(request):
     }
 
     return render(request, 'edit.html', context)
+
+def update_percent(request, log_id):
+    log_item = get_object_or_404(LogItem, id=log_id)
+
+    if request.method == 'POST':
+        form = PercentConsumedForm(request.POST, instance=log_item)
+        if form.is_valid():
+            form.save()
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            # Optionally, you can pass errors back to template
+            return render(request, 'your_template.html', {'form': form, 'log_item': log_item})
