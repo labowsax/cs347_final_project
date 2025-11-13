@@ -103,3 +103,11 @@ def get_dv_avg(start, end, profileId):
 
     pprint.pprint(results)
     return results
+
+
+def get_log_items(start, end, profileId):
+    searchProfile = Profile.objects.get(id=profileId)
+    results = LogItem.objects.filter(
+        profile=searchProfile, date__gte=start, date__lte=end
+    )
+    return results.order_by("-date")

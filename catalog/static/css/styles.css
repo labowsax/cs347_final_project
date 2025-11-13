@@ -82,3 +82,7 @@
   margin: 4px 0;
   opacity: 1;
 }
+
+.name_date {
+  display: flex;
+}

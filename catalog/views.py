@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .static.foodSearch import get_food_data
-from .static.nutrient_functions import get_dv_avg
+from .static.nutrient_functions import get_dv_avg, get_log_items
 from django.core.paginator import Paginator
 from django.core.cache import cache
 import json
@@ -40,3 +40,16 @@ def index(request):
     }
 
     return render(request, 'index.html', context=context)
+
+def edit(request):
+    """View function for home page of site."""
+    start = datetime(2024, 11, 1, 15, 30)  # year, month, day, hour, minute
+    end = datetime(2026, 11, 8, 15, 30)  # year, month, day, hour, minute
+    nutrients = get_dv_avg(start, end, 1)
+    LogItems = get_log_items(start, end, 1)
+    
+    context = {
+        'LogItems': LogItems
+    }
+
+    return render(request, 'edit.html', context)
