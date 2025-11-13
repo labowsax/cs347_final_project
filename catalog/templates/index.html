@@ -6,12 +6,42 @@
     Welcome to A&A Fitness , a website developed by
     <em>Aydan And Aidan</em>!
   </p>
-  <h2>Dynamic content</h2>
-  <p>The tables have the following record counts:</p>
-  <ul>
-    <li><strong>Food Items:</strong> {{ num_food_items }}</li>
-    <li><strong>Log Items:</strong> {{ num_instances }}</li>
-    <li><strong>Profiles:</strong> {{ num_profiles }}</li>
-  </ul>
-  {% block nutrient %}{% endblock %}
+  <h2>Nutrient Gauges</h2>
+
+<script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+
+{% for name, nutrient in nutrients.items %}
+    <div id="gauge-{{ name }}" style="margin-bottom: 20px;"></div>
+
+    <script>
+        var data = [{
+            type: "indicator",
+            mode: "gauge+number",
+            value: {{ nutrient.value }},
+            title: { text: '{{ name|capfirst }}', font: { size: 24 } },
+            gauge: {
+                axis: { range: [0, {{ nutrient.maxRange }}], tickwidth: 1, tickcolor: "black" },
+                bar: { color: "grey" },
+                bgcolor: "grey",
+                borderwidth: 2,
+                bordercolor: "pink",
+                steps: [
+                    { range: [0, {{ nutrient.minIn }}], color: "white" },
+                    { range: [{{ nutrient.minIn }}, {{ nutrient.maxIn }}], color: "green" },
+                    { range: [{{ nutrient.maxIn }}, {{ nutrient.maxRange }}], color: "red" },
+                ]
+            }
+        }];
+
+        var layout = {
+            width: 255,
+            height: 260,
+            margin: { t: 25, r: 35, l: 35, b: 25 },
+            paper_bgcolor: "white",
+            font: { color: "black", family: "Arial" }
+        };
+
+        Plotly.newPlot('gauge-{{ name }}', data, layout);
+    </script>
+{% endfor %}
 {% endblock %}

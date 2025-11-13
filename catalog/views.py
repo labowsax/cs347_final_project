@@ -10,24 +10,6 @@ from .models import Profile, FoodItem, LogItem
 from .forms import FoodSearchForm
 
 
-def index(request):
-    """View function for home page of site."""
-
-    # Generate counts of some of the main objects
-    num_food_items = FoodItem.objects.all().count()
-    num_instances = LogItem.objects.all().count()
-    num_profiles = Profile.objects.all().count()
-
-    context = {
-        'num_food_items': num_food_items,
-        'num_instances': num_instances,
-        'num_profiles': num_profiles,
-    }
-
-    # Render the HTML template index.html with the data in the context variable
-    return render(request, 'index.html', context=context)
-
-
 def search(request):
     query = request.GET.get("q")
     foods = []
@@ -47,7 +29,7 @@ def search(request):
     return render(request, 'search.html', {"page_obj": page_obj, "query": query})
 
 
-def nutrient_gauge(request):
+def index(request):
     """View function for home page of site."""
     start = datetime(2025, 11, 1, 15, 30)  # year, month, day, hour, minute
     end = datetime(2025, 11, 8, 15, 30)  # year, month, day, hour, minute
@@ -57,4 +39,4 @@ def nutrient_gauge(request):
         'nutrients': nutrients
     }
 
-    return render(request, '_nutrient_gauge.html', context=context)
+    return render(request, 'index.html', context=context)
