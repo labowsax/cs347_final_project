@@ -1,5 +1,4 @@
 from catalog.models import FoodItem, LogItem, Profile
-import pprint
 
 nutrient_fields = [
     "fat",
@@ -79,7 +78,6 @@ def get_dv_avg(start, end, profileId):
     tempFoodItem = FoodItem()
 
     logLen = (end - start).total_seconds() / 86400
-    print(logLen)
 
     for field in nutrient_fields:
         values = [
@@ -101,7 +99,6 @@ def get_dv_avg(start, end, profileId):
             "value": avg_value,
         }
 
-    pprint.pprint(results)
     return results
 
 

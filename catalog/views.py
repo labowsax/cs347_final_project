@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 # Create your views here.
 from .models import Profile, FoodItem, LogItem
-from .forms import PercentConsumedForm
+from .forms import PercentConsumedForm, DateConsumedForm
 
 
 
@@ -64,5 +64,16 @@ def update_percent(request, log_id):
             form.save()
             return redirect(request.META.get('HTTP_REFERER', '/'))
         else:
-            # Optionally, you can pass errors back to template
-            return render(request, 'your_template.html', {'form': form, 'log_item': log_item})
+            return render(request, '404.html', None)
+
+
+def update_date(request, log_id):
+    log_item = get_object_or_404(LogItem, id=log_id)
+
+    if request.method == 'POST':
+        form = DateConsumedForm(request.POST, instance=log_item)
+        if form.is_valid():
+            form.save()
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            return render(request, '404.html', None)

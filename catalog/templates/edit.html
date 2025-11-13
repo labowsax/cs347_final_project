@@ -29,6 +29,15 @@
                     <button type="submit" class="btn btn-primary btn-sm">Update</button>
                 </form>
                 {% include '_food_card.html' with food_item=logItem.foodItem %}
+
+                <form method="POST" action="{% url 'update_date' logItem.id %}" class="d-flex align-items-center">
+                    Date: 
+                    {% csrf_token %}
+                    {{ form.dateConsumed.errors }}
+                    <input type="datetime-local" name="date"
+                        value="{{ logItem.dateConsumed }}" class="form-control me-2" style="width: 100px;">
+                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                </form>
             </div>
         </div>
     </div>
