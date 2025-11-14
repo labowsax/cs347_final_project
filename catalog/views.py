@@ -31,8 +31,8 @@ def search(request):
 
 def index(request):
     """View function for home page of site."""
-    start = datetime(2024, 11, 1, 15, 30)  # year, month, day, hour, minute
-    end = datetime(2026, 11, 8, 15, 30)  # year, month, day, hour, minute
+    start = datetime(2025, 11, 10, 15, 30)  # year, month, day, hour, minute
+    end = datetime(2025, 11, 18, 15, 30)  # year, month, day, hour, minute
     nutrients = get_dv_avg(start, end, 1)
     
     context = {
