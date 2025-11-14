@@ -71,7 +71,7 @@ def get_food_data(query):
                 vitaminC=nutrientDict["Vitamin C, total ascorbic acid"],
                 vitaminD=nutrientDict["Vitamin D"],
             )
-            # foodItemInstance.save()
+            foodItemInstance.save()
             foodList.append(foodItemInstance)
             maxListLength -= 1
             if (maxListLength < 1):
@@ -80,3 +80,6 @@ def get_food_data(query):
     except requests.exceptions.RequestException as e:
         logger.error(f"Failed to retrieve food data: {e}")
         return None
+
+def get_food_by_fdcId(fdcId):
+    return FoodItem.objects.get(fdcId = fdcId)

@@ -21,8 +21,7 @@ class Profile(models.Model):
 class FoodItem(models.Model):
     # brandName + ": " + description
     foodName = models.CharField(null=False, max_length=127)
-    fdcId = models.PositiveIntegerField(null=True)
-    # Nutrients                              nut Id Number#
+    fdcId = models.PositiveIntegerField(null=True, unique=True)
     fat = models.FloatField(default=0)  
     saturatedFat = models.FloatField(default=0)
     transFat = models.FloatField(default=0)

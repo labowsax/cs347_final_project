@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .static.foodSearch import get_food_data
+from .static.foodSearch import get_food_data, get_food_by_fdcId
 from .static.nutrient_functions import get_dv_avg, get_log_items
 from django.core.paginator import Paginator
 from django.core.cache import cache
-import json
 from datetime import datetime
 # Create your views here.
 from .models import Profile, FoodItem, LogItem
-from .forms import PercentConsumedForm, DateConsumedForm
+from .forms import PercentConsumedForm, DateConsumedForm, LogItemForm
 
 
 
@@ -32,8 +31,8 @@ def search(request):
 
 def index(request):
     """View function for home page of site."""
-    start = datetime(2025, 11, 1, 15, 30)  # year, month, day, hour, minute
-    end = datetime(2025, 11, 8, 15, 30)  # year, month, day, hour, minute
+    start = datetime(2024, 11, 1, 15, 30)  # year, month, day, hour, minute
+    end = datetime(2026, 11, 8, 15, 30)  # year, month, day, hour, minute
     nutrients = get_dv_avg(start, end, 1)
     
     context = {
@@ -74,6 +73,22 @@ def update_date(request, log_id):
         form = DateConsumedForm(request.POST, instance=log_item)
         if form.is_valid():
             form.save()
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            return render(request, '404.html', None)
+
+def save_logItem(request, fdcId):
+    foodItem = get_food_by_fdcId(fdcId)
+    profile=Profile.objects.get(id=1)
+    if request.method == 'POST':
+        form = LogItemForm(request.POST)
+        if form.is_valid():
+            LogItem.objects.create(
+                profile=profile,
+                date=form.cleaned_data['date'],
+                percentConsumed=form.cleaned_data['percentConsumed'],
+                foodItem=foodItem
+            )
             return redirect(request.META.get('HTTP_REFERER', '/'))
         else:
             return render(request, '404.html', None)

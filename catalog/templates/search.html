@@ -19,18 +19,19 @@
   </form>
 </div>
 
-<div class="container mt-3">
-  <div class="food-cards-container">
+<div class="food-cards-container">
     {% for food_item in page_obj %}
     <div role="button" data-bs-toggle="modal" data-bs-target="#Modal{{ food_item.fdcId }}">
-      {% include '_food_card.html' %}
-      {% include '_add_logItem.html' %}
+        {% include '_food_card.html' %}
     </div>
+
+    {% include '_add_logItem.html' %}
+
     {% empty %}
       <p>Try searching for a food!</p>
     {% endfor %}
-  </div>
 </div>
+
 
 {% if page_obj.paginator.num_pages > 1 %}
 <div class="pagination text-center mt-4">

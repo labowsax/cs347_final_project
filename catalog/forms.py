@@ -1,6 +1,7 @@
 from django import forms
-from .models import LogItem
+from .models import LogItem, FoodItem, Profile
 from datetime import datetime
+from .static.foodSearch import get_food_by_fdcId
 
 class PercentConsumedForm(forms.ModelForm):
     class Meta:
@@ -29,3 +30,24 @@ class DateConsumedForm(forms.ModelForm):
         if not (isinstance(value, datetime)):
             raise forms.ValidationError("Date must be a date-time")
         return value
+
+class LogItemForm(forms.ModelForm):
+    class Meta:
+        model = LogItem
+        fields = ['date', 'percentConsumed']  # only model fields
+
+    def clean(self):
+        cleaned_data = super().clean()
+        date = cleaned_data.get('date')
+        percent_consumed = cleaned_data.get('percentConsumed')
+
+        # Validate percentConsumed
+        if percent_consumed is not None and percent_consumed < 0:
+            self.add_error('percentConsumed', 'Percent consumed must be above 0.')
+
+        # Validate date is not in the future
+        from django.utils import timezone
+        if date and date > timezone.now():
+            self.add_error('date', 'Date cannot be in the future.')
+
+        return cleaned_data  
