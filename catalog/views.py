@@ -3,10 +3,12 @@ from .static.foodSearch import get_food_data, get_food_by_fdcId
 from .static.nutrient_functions import get_dv_avg, get_log_items
 from django.core.paginator import Paginator
 from django.core.cache import cache
-from datetime import datetime
+from datetime import datetime, timedelta
 # Create your views here.
 from .models import Profile, FoodItem, LogItem
 from .forms import PercentConsumedForm, DateConsumedForm, LogItemForm
+from collections import OrderedDict
+
 
 
 
@@ -31,30 +33,42 @@ def search(request):
 
 def index(request):
     """View function for home page of site."""
-    start = datetime(2025, 11, 10, 15, 30)  # year, month, day, hour, minute
-    end = datetime(2025, 11, 18, 15, 30)  # year, month, day, hour, minute
-    nutrients = get_dv_avg(start, end, 1)
-    
+    profile_Id = 1  # Change when we can Login.
+    end = datetime.now()
+    start = end - timedelta(days=7)
+
+    '''start date, end date, #profile_id'''
+    averages = get_dv_avg(start, end, profile_Id)
+
+    '''Sort gauges by nutrinet_funtions.deviaiton, Worst first '''
+    nutrients = sorted(
+        averages.items(),
+        key=lambda item: int(item[1]['deviation']),
+        reverse=True)
+    nutrients = OrderedDict(nutrients)
+
     context = {
         'nutrients': nutrients
     }
 
     return render(request, 'index.html', context=context)
 
+
 def edit(request):
     """View function for home page of site."""
     start = datetime(2024, 11, 1, 15, 30)  # year, month, day, hour, minute
     end = datetime(2026, 11, 8, 15, 30)  # year, month, day, hour, minute
-    nutrients = get_dv_avg(start, end, 1)
     LogItems = get_log_items(start, end, 1)
-    
+
     context = {
         'LogItems': LogItems
     }
 
     return render(request, 'edit.html', context)
 
+
 def update_percent(request, log_id):
+    """Endpiont for updating_percent"""
     log_item = get_object_or_404(LogItem, id=log_id)
 
     if request.method == 'POST':
@@ -67,6 +81,7 @@ def update_percent(request, log_id):
 
 
 def update_date(request, log_id):
+    """Endpiont for updating_date"""
     log_item = get_object_or_404(LogItem, id=log_id)
 
     if request.method == 'POST':
@@ -77,7 +92,9 @@ def update_date(request, log_id):
         else:
             return render(request, '404.html', None)
 
+
 def save_logItem(request, fdcId):
+    """Endpoint for saving logItem"""
     foodItem = get_food_by_fdcId(fdcId)
     profile=Profile.objects.get(id=1)
     if request.method == 'POST':

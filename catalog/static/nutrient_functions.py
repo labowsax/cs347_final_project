@@ -44,6 +44,30 @@ nutrient_ranges = {
     "vitaminD": {"min": 15, "max": 20, "target": 20},  # µg (600–800 IU)
 }
 
+def Deviation(field, value):
+    """
+    Calculate the normalized deviation of a nutrient value from its target.
+
+    Parameters
+    field : str
+        The key identifying which nutrient's range and target to use from
+        `nutrient_ranges`.
+    value : float or int
+        The actual measured value of the nutrient.
+
+    Returns
+    float
+        A normalized deviation value where:
+        - 0 indicates the value is exactly at the target,
+        - 1 indicates the value is one "half-range" away from the target,
+        - Values > 1 indicate larger deviations.
+
+    """
+    deviation_size = (nutrient_ranges[field]["max"] - nutrient_ranges[field]["min"]) / 2
+    target = nutrient_ranges[field]["target"]
+    deviation = abs(target - value) / deviation_size
+    return deviation
+
 
 def get_dv_avg(start, end, profileId):
     """
@@ -67,6 +91,7 @@ def get_dv_avg(start, end, profileId):
             'maxIn': maxIn,
             'maxRange': maxRange,
             'value': value,
+            'deviation': deviation,
             }
         }
     """
@@ -79,26 +104,27 @@ def get_dv_avg(start, end, profileId):
 
     logLen = (end - start).total_seconds() / 86400
 
-    for field in nutrient_fields:
-        values = [
+    for field in nutrient_fields: # For Each nutrient
+        values = [ # Go through all of the returned log items.
             (getattr(item.foodItem, field, 0) or 0) * (item.percentConsumed or 0)
             for item in logQuery
         ]
         total = sum(values)
-        avg = total / logLen if logLen else 0
+        avg = total / logLen if logLen else 0 # Average the value
         setattr(tempFoodItem, field, avg)
 
     results = {}
     for field in nutrient_fields:
         avg_value = getattr(tempFoodItem, field, 0)
+        deviation = Deviation(field, avg_value)
 
         results[field] = {
             "minIn": nutrient_ranges[field]["min"],
             "maxIn": nutrient_ranges[field]["max"],
             "maxRange": int(nutrient_ranges[field]["max"] * 1.2),
             "value": avg_value,
+            "deviation": deviation
         }
-
     return results
 
 

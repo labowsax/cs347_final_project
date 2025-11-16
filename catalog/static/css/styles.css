@@ -86,3 +86,33 @@
 .name_date {
   display: flex;
 }
+/* Scrollable container wrapper */
+.nutrient-gauges-scroll {
+    height: 30vh;
+    overflow-y: auto;
+    padding-right: 10px; /* prevents scrollbar overlap */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fafafa;
+}
+
+/* Grid layout inside the scrollable area */
+.nutrient-gauges-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Optional styling for each gauge block */
+.gauge-wrapper {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.gauge-box {
+    width: 100%;
+    height: 260px;
+}
