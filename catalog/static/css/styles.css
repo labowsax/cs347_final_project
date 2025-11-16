@@ -88,7 +88,7 @@
 }
 /* Scrollable container wrapper */
 .nutrient-gauges-scroll {
-    height: 30vh;
+    height: 50vh;
     overflow-y: auto;
     padding-right: 10px; /* prevents scrollbar overlap */
     border: 1px solid #ddd;

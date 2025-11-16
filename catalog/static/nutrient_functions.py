@@ -44,6 +44,7 @@ nutrient_ranges = {
     "vitaminD": {"min": 15, "max": 20, "target": 20},  # µg (600–800 IU)
 }
 
+
 def Deviation(field, value):
     """
     Calculate the normalized deviation of a nutrient value from its target.
@@ -104,8 +105,8 @@ def get_dv_avg(start, end, profileId):
 
     logLen = (end - start).total_seconds() / 86400
 
-    for field in nutrient_fields: # For Each nutrient
-        values = [ # Go through all of the returned log items.
+    for field in nutrient_fields:  # For Each nutrient
+        values = [  # Go through all of the returned log items.
             (getattr(item.foodItem, field, 0) or 0) * (item.percentConsumed or 0)
             for item in logQuery
         ]

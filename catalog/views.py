@@ -4,12 +4,9 @@ from .static.nutrient_functions import get_dv_avg, get_log_items
 from django.core.paginator import Paginator
 from django.core.cache import cache
 from datetime import datetime, timedelta
-# Create your views here.
-from .models import Profile, FoodItem, LogItem
+from .models import Profile, LogItem
 from .forms import PercentConsumedForm, DateConsumedForm, LogItemForm
 from collections import OrderedDict
-
-
 
 
 def search(request):
@@ -28,7 +25,8 @@ def search(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'search.html', {"page_obj": page_obj, "query": query})
+    return render(request, 'search.html',
+                  {"page_obj": page_obj, "query": query})
 
 
 def index(request):
@@ -56,9 +54,14 @@ def index(request):
 
 def edit(request):
     """View function for home page of site."""
-    start = datetime(2024, 11, 1, 15, 30)  # year, month, day, hour, minute
-    end = datetime(2026, 11, 8, 15, 30)  # year, month, day, hour, minute
-    LogItems = get_log_items(start, end, 1)
+    profile_Id = 1  # Change when we can Login.
+    now = datetime.now()
+    start = now - \
+        timedelta(days=730)
+    end = now + \
+        timedelta(days=730)
+
+    LogItems = get_log_items(start, end, profile_Id)
 
     context = {
         'LogItems': LogItems
@@ -96,7 +99,7 @@ def update_date(request, log_id):
 def save_logItem(request, fdcId):
     """Endpoint for saving logItem"""
     foodItem = get_food_by_fdcId(fdcId)
-    profile=Profile.objects.get(id=1)
+    profile = Profile.objects.get(id=1)
     if request.method == 'POST':
         form = LogItemForm(request.POST)
         if form.is_valid():
