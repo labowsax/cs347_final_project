@@ -34,7 +34,7 @@
                     Date:
                     {% csrf_token %}
                     {{ form.dateConsumed.errors }}
-                    <input type="datetime-local" name="date" value="{{ logItem.dateConsumed }}"
+                    <input type="datetime-local" name="date" value="{{ logItem.date }}"
                         class="form-control me-2" style="width: 100px;">
                     <button type="submit" class="btn btn-primary btn-sm">Update</button>
                 </form>

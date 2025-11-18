@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_nutrient_amounts(nutrientsList):
+    print(nutrientsList)
     amounts = {"Total lipid (fat)": 0,
                'Fatty acids, total saturated': 0,
                'Fatty acids, total trans': 0,
@@ -23,7 +24,7 @@ def get_nutrient_amounts(nutrientsList):
                'Zinc, Zn': 0,
                'Energy': 0,
                'Vitamin C, total ascorbic acid': 0,
-               'Vitamin D': 0}
+               'Vitamin D (D2 + D3), International Units': 0}
     for i in range(len(nutrientsList)):
         currentNutrient = nutrientsList[i]
         if (currentNutrient['nutrientName'] in amounts):
@@ -69,7 +70,7 @@ def get_food_data(query):
                 zinc=nutrientDict["Zinc, Zn"],
                 calories=nutrientDict["Energy"],
                 vitaminC=nutrientDict["Vitamin C, total ascorbic acid"],
-                vitaminD=nutrientDict["Vitamin D"],
+                vitaminD=nutrientDict["Vitamin D (D2 + D3), International Units"],
             )
             if not FoodItem.objects.filter(fdcId=inFoodfdcId).exists():
                 foodItemInstance.save()
