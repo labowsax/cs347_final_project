@@ -21,7 +21,7 @@
             aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#foodAccordion">
             <div class="accordion-body">
                 <form method="POST" action="{% url 'update_percent' logItem.id %}" class="d-flex align-items-center">
-                    Servings: 
+                    Servings:
                     {% csrf_token %}
                     {{ form.percentConsumed.errors }}
                     <input type="number" step="0.1" min="0" max="1000" name="percentConsumed"
@@ -31,12 +31,19 @@
                 {% include '_food_card.html' with food_item=logItem.foodItem %}
 
                 <form method="POST" action="{% url 'update_date' logItem.id %}" class="d-flex align-items-center">
-                    Date: 
+                    Date:
                     {% csrf_token %}
                     {{ form.dateConsumed.errors }}
-                    <input type="datetime-local" name="date"
-                        value="{{ logItem.dateConsumed }}" class="form-control me-2" style="width: 100px;">
+                    <input type="datetime-local" name="date" value="{{ logItem.dateConsumed }}"
+                        class="form-control me-2" style="width: 100px;">
                     <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                </form>
+
+                <form method="POST" action="{% url 'delete_logItem'%}" class="d-flex align-items-center">
+                    {% csrf_token %}
+                    {{ form.LogItemDeleteForm.errors }}
+                    <input type="hidden" name="logItem_id" value="{{ logItem.id }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
             </div>
         </div>

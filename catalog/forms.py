@@ -31,10 +31,27 @@ class DateConsumedForm(forms.ModelForm):
             raise forms.ValidationError("Date must be a date-time")
         return value
 
+
+class LogItemDeleteForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super().clean()
+        logItemId = cleaned_data.get('id')
+        print(cleaned_data)
+        print(logItemId)
+        logItem = LogItem.objects.filter(id = logItemId)
+        # Validate lologItemIdgitem
+        if logItem is None:
+            self.add_error("logItem', 'Can't find log item.")
+        
+        logItem.delete()
+        return logItem
+
+
 class LogItemForm(forms.ModelForm):
     class Meta:
         model = LogItem
-        fields = ['date', 'percentConsumed']  # only model fields
+        fields = ['date', 'percentConsumed']
 
     def clean(self):
         cleaned_data = super().clean()

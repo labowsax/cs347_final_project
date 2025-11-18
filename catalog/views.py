@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from .models import Profile, LogItem
 from .forms import PercentConsumedForm, DateConsumedForm, LogItemForm
 from collections import OrderedDict
+from django.utils import timezone
 
 
 def search(request):
@@ -32,7 +33,7 @@ def search(request):
 def index(request):
     """View function for home page of site."""
     profile_Id = 1  # Change when we can Login.
-    end = datetime.now()
+    end = timezone.now()
     start = end - timedelta(days=7)
 
     '''start date, end date, #profile_id'''
@@ -55,7 +56,7 @@ def index(request):
 def edit(request):
     """View function for home page of site."""
     profile_Id = 1  # Change when we can Login.
-    now = datetime.now()
+    now = timezone.now()
     start = now - \
         timedelta(days=730)
     end = now + \
@@ -109,6 +110,18 @@ def save_logItem(request, fdcId):
                 percentConsumed=form.cleaned_data['percentConsumed'],
                 foodItem=foodItem
             )
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            return render(request, '404.html', None)
+
+def delete_logItem(request):
+    """Endpoint for saving logItem"""
+
+    if request.method == 'POST':
+        log_id =(request.POST['logItem_id'])
+        log_item = get_object_or_404(LogItem, id=log_id)
+        log_item.delete()
+        if log_id:
             return redirect(request.META.get('HTTP_REFERER', '/'))
         else:
             return render(request, '404.html', None)

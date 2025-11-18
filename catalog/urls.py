@@ -8,4 +8,5 @@ urlpatterns = [
     path('update_percent/<int:log_id>/', views.update_percent, name='update_percent'),
     path('update_date/<int:log_id>/', views.update_date, name='update_date'),
     path('save_logItem/<int:fdcId>/', views.save_logItem, name='save_logItem'),
+    path('delete_logItem/', views.delete_logItem, name='delete_logItem'),
 ]
