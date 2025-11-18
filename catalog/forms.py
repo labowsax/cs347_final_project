@@ -1,7 +1,7 @@
 from django import forms
-from .models import LogItem, FoodItem, Profile
+from .models import LogItem
 from datetime import datetime
-from .static.foodSearch import get_food_by_fdcId
+
 
 class PercentConsumedForm(forms.ModelForm):
     class Meta:
@@ -30,6 +30,7 @@ class DateConsumedForm(forms.ModelForm):
         if not (isinstance(value, datetime)):
             raise forms.ValidationError("Date must be a date-time")
         return value
+
 
 class LogItemForm(forms.ModelForm):
     class Meta:

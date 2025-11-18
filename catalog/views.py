@@ -114,9 +114,10 @@ def save_logItem(request, fdcId):
         else:
             return render(request, '404.html', None)
 
-def delete_logItem(request):
-    """Endpoint for saving logItem"""
 
+def delete_logItem(request):
+    """Endpoint for deleting logItem,  When we can login
+    I think we need to authenticate the user somehow?"""
     if request.method == 'POST':
         log_id =(request.POST['logItem_id'])
         log_item = get_object_or_404(LogItem, id=log_id)

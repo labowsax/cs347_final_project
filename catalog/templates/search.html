@@ -19,6 +19,7 @@
   </form>
 </div>
 
+<!-- Food Cards displayed on search page. Currently six see foodSearch.py -->
 <div class="food-cards-container">
     {% for food_item in page_obj %}
     <div role="button" data-bs-toggle="modal" data-bs-target="#Modal{{ food_item.fdcId }}">
