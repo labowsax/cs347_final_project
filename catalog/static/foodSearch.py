@@ -34,7 +34,7 @@ def get_nutrient_amounts(nutrientsList):
 
 def get_food_data(query):
     try:
-        url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key=ZYIHMGpSmgzwCecsbSxa7rSNizrdeitAiug86jlZ&query={query}"
+        url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key=DEMO_KEY&query={query}"
         response = requests.get(url)
         response.raise_for_status()
         resp = response.json()
