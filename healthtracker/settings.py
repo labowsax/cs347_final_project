@@ -129,6 +129,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Media files (user uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Redirects after login/logout
+LOGIN_REDIRECT_URL = '/catalog/profile/'
+LOGOUT_REDIRECT_URL = '/catalog/'
+
 STORAGES = {
     "staticfiles": {
         "BACKEND":

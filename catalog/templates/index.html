@@ -1,17 +1,20 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+  <div class="page-background">
   <h1>A&A Fitness  Home</h1>
   <p>
     Welcome to A&A Fitness , a website developed by
     <em>Aydan And Aidan</em>!
   </p>
+  <a href="{% url 'catalog:signup' %}" class="btn btn-primary" style="margin-bottom: 20px;">Sign-Up</a>
   <h2>Dynamic content</h2>
   <p>The tables have the following record counts:</p>
-  <ul>
-    <li><strong>Food Items:</strong> {{ num_food_items }}</li>
-    <li><strong>Log Items:</strong> {{ num_instances }}</li>
-    <li><strong>Profiles:</strong> {{ num_profiles }}</li>
-  </ul>
+    <ul>
+      <li><strong>Food Items:</strong> {{ num_food_items }}</li>
+      <li><strong>Log Items:</strong> {{ num_instances }}</li>
+      <li><strong>Profiles:</strong> {{ num_profiles }}</li>
+    </ul>
   {% block nutrient %}{% endblock %}
+  </div>
 {% endblock %}
